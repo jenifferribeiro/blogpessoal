@@ -31,6 +31,9 @@ public class UsuarioService {
 	public Optional<Usuario> cadastrarUsuario(Usuario usuario) {
 		if (usuarioRepository.findByUsuario(usuario.getUsuario()).isPresent())
 			return Optional.empty();
+		
+		if(usuario.getFoto().isBlank())
+	         usuario.setFoto("https://i.imgur.com/I8MfmC8.png");
 
 		usuario.setSenha(criptografarSenha(usuario.getSenha()));
 
@@ -45,6 +48,9 @@ public class UsuarioService {
 
 			if ((buscaUsuario.isPresent()) && (buscaUsuario.get().getId() != usuario.getId()))
 				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuário já existe!", null);
+			
+			if(usuario.getFoto().isBlank())
+		         usuario.setFoto("https://i.imgur.com/I8MfmC8.png");
 
 			usuario.setSenha(criptografarSenha(usuario.getSenha()));
 
